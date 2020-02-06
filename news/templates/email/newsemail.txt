@@ -1,3 +1,4 @@
 Hello {{name}}
 
 Welcome to the Moringa Tribune newsletter. You will find the most exciting news about Moringa School.
+Management: Evans Nyambane
