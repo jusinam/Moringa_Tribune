@@ -1,3 +1,4 @@
+from rest_framework.authtoken.views import obtain_auth_token
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url
@@ -10,7 +11,9 @@ urlpatterns =[
     url(r'^article/(\d+)',views.article,name ='article'),
     url(r'^new/article$', views.new_article, name='new-article'),
     url(r'^ajax/newsletter/$', views.newsletter, name='newsletter'),
-    url(r'^api/merch/$', views.MerchList.as_view())
+    url(r'^api/merch/$', views.MerchList.as_view()),
+    url(r'^api-token-auth/', obtain_auth_token),
+
 
 
 ]
