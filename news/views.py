@@ -1,10 +1,17 @@
+from rest_framework import status
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .forms import NewArticleForm,NewsLetterForm
 from .email import send_welcome_email
-from .models import Article,NewsLetterRecipients
+from .models import Article,NewsLetterRecipients,MoringaMerch
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import MerchSerializer
+
+
 
 # Creating views
 def welcome(request):
@@ -13,7 +20,7 @@ def welcome(request):
 def news_of_day(request):
     date = dt.date.today()
     news = Article.todays_news()
-
+    form = NewsLetterForm()
 
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
@@ -82,3 +89,21 @@ def new_article(request):
     else:
         form = NewArticleForm()
     return render(request, 'new_article.html', {"form": form})
+
+def newsletter(request):
+    name = request.POST.get('your_name')
+    email = request.POST.get('email')
+
+    recipient = NewsLetterRecipients(name=name, email=email)
+    recipient.save()
+    send_welcome_email(name, email)
+    data = {'success': 'You have been successfully added to mailing list'}
+    return JsonResponse(data)
+
+class MerchList(APIView):
+    def get(self, request, format=None):
+        all_merch = MoringaMerch.objects.all()
+        serializers = MerchSerializer(all_merch, many=True)
+        return Response(serializers.data)
+
+        
