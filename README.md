@@ -3,4 +3,4 @@ Moringa Tribune is a django generated website that displays daily news of variou
 
 #### License
 MIT
-&copy;2020 Evans Onchagwa
+&copy;2020 Evans ON
